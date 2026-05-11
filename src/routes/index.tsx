@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RouteSkeleton } from "@/components/RouteSkeleton";
 import Index from "@/pages/Index";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  pendingComponent: RouteSkeleton,
+  pendingComponent: RouteSkeleton,
   head: () => ({
     meta: [
       { title: "BreezeControl — Touchless gesture control for any computer" },

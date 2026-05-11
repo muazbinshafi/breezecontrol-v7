@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RouteSkeleton } from "@/components/RouteSkeleton";
 import Account from "@/pages/Account";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
