@@ -9,5 +9,6 @@ export const Route = createFileRoute("/account")({
       <Account />
     </ProtectedRoute>
   ),
+  pendingComponent: RouteSkeleton,
   head: () => ({ meta: [{ title: "Account — BreezeControl" }] }),
 });

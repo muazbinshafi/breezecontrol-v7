@@ -9,6 +9,7 @@ export const Route = createFileRoute("/demo")({
       <Demo />
     </CameraErrorBoundary>
   ),
+  pendingComponent: RouteSkeleton,
   head: () => ({
     meta: [
       { title: "Live demo — BreezeControl" },
