@@ -51,6 +51,9 @@ export const Route = createRootRoute({
       },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/036558f9-d137-4987-9412-cb4ed8836ad2/id-preview-5ade9692--c485883a-4871-4fc3-bb12-8cb95aa9ed9b.lovable.app-1777532530438.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/036558f9-d137-4987-9412-cb4ed8836ad2/id-preview-5ade9692--c485883a-4871-4fc3-bb12-8cb95aa9ed9b.lovable.app-1777532530438.png" },
+      { name: "description", content: "Project Playground is a web application for editing and deploying code projects." },
+      { property: "og:description", content: "Project Playground is a web application for editing and deploying code projects." },
+      { name: "twitter:description", content: "Project Playground is a web application for editing and deploying code projects." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
