@@ -5,7 +5,6 @@ import Docs from "@/pages/Docs";
 export const Route = createFileRoute("/docs")({
   component: Docs,
   pendingComponent: RouteSkeleton,
-  pendingComponent: RouteSkeleton,
   head: () => ({
     meta: [
       { title: "Docs — BreezeControl" },

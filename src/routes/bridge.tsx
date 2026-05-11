@@ -5,7 +5,6 @@ import BridgeInstall from "@/pages/BridgeInstall";
 export const Route = createFileRoute("/bridge")({
   component: BridgeInstall,
   pendingComponent: RouteSkeleton,
-  pendingComponent: RouteSkeleton,
   head: () => ({
     meta: [
       { title: "OS Bridge — BreezeControl" },

@@ -5,6 +5,5 @@ import ResetPassword from "@/pages/ResetPassword";
 export const Route = createFileRoute("/reset-password")({
   component: ResetPassword,
   pendingComponent: RouteSkeleton,
-  pendingComponent: RouteSkeleton,
   head: () => ({ meta: [{ title: "Reset password — BreezeControl" }] }),
 });

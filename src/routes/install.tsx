@@ -5,7 +5,6 @@ import Install from "@/pages/Install";
 export const Route = createFileRoute("/install")({
   component: Install,
   pendingComponent: RouteSkeleton,
-  pendingComponent: RouteSkeleton,
   head: () => ({
     meta: [
       { title: "Install on your phone — BreezeControl" },
