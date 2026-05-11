@@ -9,38 +9,234 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as InstallRouteImport } from './routes/install'
+import { Route as GuideRouteImport } from './routes/guide'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as DemoRouteImport } from './routes/demo'
+import { Route as BridgeRouteImport } from './routes/bridge'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AccountRouteImport } from './routes/account'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BridgeOsRouteImport } from './routes/bridge.$os'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallRoute = InstallRouteImport.update({
+  id: '/install',
+  path: '/install',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoRoute = DemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BridgeRoute = BridgeRouteImport.update({
+  id: '/bridge',
+  path: '/bridge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BridgeOsRoute = BridgeOsRouteImport.update({
+  id: '/$os',
+  path: '/$os',
+  getParentRoute: () => BridgeRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/account': typeof AccountRoute
+  '/auth': typeof AuthRoute
+  '/bridge': typeof BridgeRouteWithChildren
+  '/demo': typeof DemoRoute
+  '/docs': typeof DocsRoute
+  '/guide': typeof GuideRoute
+  '/install': typeof InstallRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/bridge/$os': typeof BridgeOsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/account': typeof AccountRoute
+  '/auth': typeof AuthRoute
+  '/bridge': typeof BridgeRouteWithChildren
+  '/demo': typeof DemoRoute
+  '/docs': typeof DocsRoute
+  '/guide': typeof GuideRoute
+  '/install': typeof InstallRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/bridge/$os': typeof BridgeOsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/account': typeof AccountRoute
+  '/auth': typeof AuthRoute
+  '/bridge': typeof BridgeRouteWithChildren
+  '/demo': typeof DemoRoute
+  '/docs': typeof DocsRoute
+  '/guide': typeof GuideRoute
+  '/install': typeof InstallRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/bridge/$os': typeof BridgeOsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/$'
+    | '/account'
+    | '/auth'
+    | '/bridge'
+    | '/demo'
+    | '/docs'
+    | '/guide'
+    | '/install'
+    | '/reset-password'
+    | '/bridge/$os'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/$'
+    | '/account'
+    | '/auth'
+    | '/bridge'
+    | '/demo'
+    | '/docs'
+    | '/guide'
+    | '/install'
+    | '/reset-password'
+    | '/bridge/$os'
+  id:
+    | '__root__'
+    | '/'
+    | '/$'
+    | '/account'
+    | '/auth'
+    | '/bridge'
+    | '/demo'
+    | '/docs'
+    | '/guide'
+    | '/install'
+    | '/reset-password'
+    | '/bridge/$os'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
+  AccountRoute: typeof AccountRoute
+  AuthRoute: typeof AuthRoute
+  BridgeRoute: typeof BridgeRouteWithChildren
+  DemoRoute: typeof DemoRoute
+  DocsRoute: typeof DocsRoute
+  GuideRoute: typeof GuideRoute
+  InstallRoute: typeof InstallRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/install': {
+      id: '/install'
+      path: '/install'
+      fullPath: '/install'
+      preLoaderRoute: typeof InstallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo': {
+      id: '/demo'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bridge': {
+      id: '/bridge'
+      path: '/bridge'
+      fullPath: '/bridge'
+      preLoaderRoute: typeof BridgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +244,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bridge/$os': {
+      id: '/bridge/$os'
+      path: '/$os'
+      fullPath: '/bridge/$os'
+      preLoaderRoute: typeof BridgeOsRouteImport
+      parentRoute: typeof BridgeRoute
+    }
   }
 }
 
+interface BridgeRouteChildren {
+  BridgeOsRoute: typeof BridgeOsRoute
+}
+
+const BridgeRouteChildren: BridgeRouteChildren = {
+  BridgeOsRoute: BridgeOsRoute,
+}
+
+const BridgeRouteWithChildren =
+  BridgeRoute._addFileChildren(BridgeRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
+  AccountRoute: AccountRoute,
+  AuthRoute: AuthRoute,
+  BridgeRoute: BridgeRouteWithChildren,
+  DemoRoute: DemoRoute,
+  DocsRoute: DocsRoute,
+  GuideRoute: GuideRoute,
+  InstallRoute: InstallRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
