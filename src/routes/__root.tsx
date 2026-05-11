@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/lib/theme/ThemeContext";
 import { AuthProvider } from "@/lib/auth/AuthContext";
 import { useCloudProfileSync } from "@/hooks/useCloudProfileSync";
 import { PageTransition } from "@/components/PageTransition";
+import { SiteAtmosphere } from "@/components/SiteAtmosphere";
 
 import appCss from "../styles.css?url";
 
@@ -120,6 +121,7 @@ function RootComponent() {
             <CloudSyncBoot />
             <Toaster />
             <Sonner />
+            <SiteAtmosphere />
             <PageTransition>
               <Outlet />
             </PageTransition>

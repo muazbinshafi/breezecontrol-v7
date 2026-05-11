@@ -9,10 +9,14 @@ interface NavLinkCompatProps extends Omit<ComponentProps<typeof Link>, "classNam
 }
 
 const baseNav =
-  "relative inline-flex items-center transition-colors duration-200 " +
-  "after:content-[''] after:absolute after:left-2 after:right-2 after:-bottom-0.5 " +
-  "after:h-px after:bg-gradient-to-r after:from-primary after:via-primary-glow after:to-accent " +
-  "after:scale-x-0 after:origin-left after:transition-transform after:duration-300 " +
+  "relative inline-flex items-center px-1 py-1 transition-colors duration-200 " +
+  // Animated underline indicator using a pseudo-element so we can
+  // smoothly transition between routes.
+  "after:content-[''] after:absolute after:left-1 after:right-1 after:-bottom-0.5 " +
+  "after:h-[2px] after:rounded-full " +
+  "after:bg-gradient-to-r after:from-primary after:via-primary-glow after:to-accent " +
+  "after:shadow-[0_0_10px_hsl(var(--primary)/0.55)] " +
+  "after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out " +
   "hover:after:scale-x-100";
 
 const NavLink = forwardRef<HTMLAnchorElement, NavLinkCompatProps>(
@@ -20,6 +24,7 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkCompatProps>(
     return (
       <Link
         ref={ref as never}
+        preload="intent"
         {...(props as ComponentProps<typeof Link>)}
         activeProps={{
           className: cn(
