@@ -1,26 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
+import Index from "@/pages/Index";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "BreezeControl — Touchless gesture control for any computer" },
+      {
+        name: "description",
+        content:
+          "Control your cursor, scroll, click and draw with hand gestures using only a webcam. No special hardware. Works on Windows, macOS and Linux.",
+      },
+      { property: "og:title", content: "BreezeControl — Touchless gesture control" },
+      {
+        property: "og:description",
+        content: "Control any computer with just your webcam and your hands.",
+      },
+    ],
+  }),
 });
-
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
-}
