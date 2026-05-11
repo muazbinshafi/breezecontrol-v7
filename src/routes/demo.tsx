@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RouteSkeleton } from "@/components/RouteSkeleton";
 import Demo from "@/pages/Demo";
 import { CameraErrorBoundary } from "@/components/omnipoint/CameraErrorBoundary";
 
@@ -8,6 +9,7 @@ export const Route = createFileRoute("/demo")({
       <Demo />
     </CameraErrorBoundary>
   ),
+  pendingComponent: RouteSkeleton,
   head: () => ({
     meta: [
       { title: "Live demo — BreezeControl" },

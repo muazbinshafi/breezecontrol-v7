@@ -519,12 +519,12 @@
     to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0); }
   }
   @supports (animation-timeline: view()) {
-    main > section {
+    html:not([data-perf="lite"]):not([data-perf="static"]) main > section {
       animation: op-reveal-strong 1s cubic-bezier(0.22, 1, 0.36, 1) both;
       animation-timeline: view();
       animation-range: entry 0% cover 28%;
     }
-    main > section:first-of-type { animation: none; }
+    html:not([data-perf="lite"]):not([data-perf="static"]) main > section:first-of-type { animation: none; }
 
     /* Staggered cascade for children of revealed sections. */
     main > section > *:nth-child(1) { animation-delay: 0ms; }
