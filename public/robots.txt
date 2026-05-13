@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /account
+Disallow: /reset-password
+
+Sitemap: https://breezecontrol-v7.lovable.app/sitemap.xml

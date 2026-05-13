@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { RouteSkeleton } from "@/components/RouteSkeleton";
 import BridgeGuideOS from "@/pages/BridgeGuideOS";
 
+const SITE = "https://breezecontrol-v7.lovable.app";
+
 export const Route = createFileRoute("/bridge/$os")({
   component: BridgeGuideOS,
   pendingComponent: RouteSkeleton,
@@ -15,14 +17,21 @@ export const Route = createFileRoute("/bridge/$os")({
           : os.toLowerCase() === "linux"
             ? "Linux"
             : os;
+    const title = `Install BreezeControl bridge on ${pretty}`;
+    const desc = `Step-by-step instructions to install and run the BreezeControl HID bridge on ${pretty}.`;
+    const url = `${SITE}/bridge/${os}`;
     return {
       meta: [
-        { title: `Install BreezeControl bridge on ${pretty}` },
-        {
-          name: "description",
-          content: `Step-by-step instructions to install and run the BreezeControl HID bridge on ${pretty}.`,
-        },
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: desc },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
 });
