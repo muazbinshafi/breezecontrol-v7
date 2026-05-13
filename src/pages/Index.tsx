@@ -123,7 +123,13 @@ function Hero() {
               phone. Soft on the eyes, sharp on the cursor.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up delay-300">
-              <Link to="/demo" className="btn-primary btn-bloom h-12 px-6 text-sm anim-glow-pulse">
+              <Link
+                to="/demo"
+                className="btn-primary btn-bloom h-12 px-6 text-sm anim-glow-pulse"
+                onMouseEnter={warmDemoAssets}
+                onFocus={warmDemoAssets}
+                onTouchStart={warmDemoAssets}
+              >
                 <Play className="w-4 h-4 fill-current" />
                 Try it live
                 <ArrowRight className="w-4 h-4" />
