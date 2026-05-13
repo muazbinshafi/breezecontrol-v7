@@ -47,6 +47,16 @@ const Demo = () => {
   const bridgeRef = useRef<HIDBridge | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
+  // Pre-warm the MediaPipe vision model + WASM in the background as soon as
+  // the Demo page mounts. The ~10MB model download then overlaps with reading
+  // the screen, clicking "Start camera", and granting camera permission —
+  // cutting visible "Initializing..." time roughly in half.
+  useEffect(() => {
+    GestureEngine.prewarm(loadDetectionFloors()).catch(() => {
+      /* prewarm failure is non-fatal — initialize() will retry and surface the error */
+    });
+  }, []);
+
   // The in-page browser cursor stays mounted in BOTH modes so the user can
   // still draw on the page while the bridge drives their real OS cursor.
   // Defaults to OFF in bridge mode (so it doesn't fight the OS cursor)
