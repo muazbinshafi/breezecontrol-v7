@@ -1203,14 +1203,12 @@ export class BrowserCursor {
       return;
     }
     const { x, y } = this.resolveScreenXY(snap.cursorX, snap.cursorY);
-    this.ring.style.left = `${x}px`;
-    this.ring.style.top = `${y}px`;
-    this.dot.style.left = `${x}px`;
-    this.dot.style.top = `${y}px`;
-    this.label.style.left = `${x}px`;
-    this.label.style.top = `${y}px`;
-    this.hand.style.left = `${x}px`;
-    this.hand.style.top = `${y}px`;
+    // Position via GPU-composited transform instead of left/top to avoid
+    // per-frame layout reflow — keeps cursor motion smooth at 60+ fps.
+    const tf = `translate3d(${x}px, ${y}px, 0)`;
+    this.dot.style.transform = tf;
+    this.label.style.transform = tf;
+    this.hand.style.transform = tf;
     this.updateHandSkeleton(snap);
 
     const g = snap.gesture;
