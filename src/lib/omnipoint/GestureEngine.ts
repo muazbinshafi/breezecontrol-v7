@@ -189,6 +189,55 @@ export class GestureEngine {
     this.ctx = ctx;
   }
 
+  /**
+   * Pre-warm the MediaPipe vision fileset + HandLandmarker model so the heavy
+   * CDN downloads (~10MB model + WASM) can run in parallel with the camera
+   * permission prompt. Result is cached per-tab — subsequent calls reuse it.
+   */
+  private static prewarmPromise: Promise<HandLandmarker> | null = null;
+  static prewarm(floors?: {
+    minHandDetectionConfidence?: number;
+    minHandPresenceConfidence?: number;
+    minTrackingConfidence?: number;
+  }): Promise<HandLandmarker> {
+    if (GestureEngine.prewarmPromise) return GestureEngine.prewarmPromise;
+    GestureEngine.prewarmPromise = (async () => {
+      const fileset = await FilesetResolver.forVisionTasks(
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm",
+      );
+      const options = {
+        numHands: 2,
+        runningMode: "VIDEO" as const,
+        minHandDetectionConfidence: floors?.minHandDetectionConfidence ?? 0.25,
+        minHandPresenceConfidence: floors?.minHandPresenceConfidence ?? 0.25,
+        minTrackingConfidence: floors?.minTrackingConfidence ?? 0.25,
+      };
+      const modelAssetPath =
+        "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
+      try {
+        const lm = await HandLandmarker.createFromOptions(fileset, {
+          baseOptions: { modelAssetPath, delegate: "GPU" },
+          ...options,
+        });
+        console.info("[OmniPoint] HandLandmarker initialized (GPU delegate)", options);
+        return lm;
+      } catch (err) {
+        console.warn("[OmniPoint] GPU delegate failed, falling back to CPU:", err);
+        const lm = await HandLandmarker.createFromOptions(fileset, {
+          baseOptions: { modelAssetPath, delegate: "CPU" },
+          ...options,
+        });
+        console.info("[OmniPoint] HandLandmarker initialized (CPU delegate)", options);
+        return lm;
+      }
+    })().catch((err) => {
+      // Allow retry on next call if prewarm failed.
+      GestureEngine.prewarmPromise = null;
+      throw err;
+    });
+    return GestureEngine.prewarmPromise;
+  }
+
   async init(
     onProgress?: (msg: string) => void,
     floors?: {
@@ -197,35 +246,8 @@ export class GestureEngine {
       minTrackingConfidence?: number;
     },
   ) {
-    onProgress?.("Loading vision fileset...");
-    const fileset = await FilesetResolver.forVisionTasks(
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm",
-    );
-    onProgress?.("Loading HandLandmarker model...");
-    const options = {
-      numHands: 2,
-      runningMode: "VIDEO" as const,
-      minHandDetectionConfidence: floors?.minHandDetectionConfidence ?? 0.25,
-      minHandPresenceConfidence: floors?.minHandPresenceConfidence ?? 0.25,
-      minTrackingConfidence: floors?.minTrackingConfidence ?? 0.25,
-    };
-    const modelAssetPath =
-      "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
-    try {
-      this.landmarker = await HandLandmarker.createFromOptions(fileset, {
-        baseOptions: { modelAssetPath, delegate: "GPU" },
-        ...options,
-      });
-      console.info("[OmniPoint] HandLandmarker initialized (GPU delegate)", options);
-    } catch (err) {
-      console.warn("[OmniPoint] GPU delegate failed, falling back to CPU:", err);
-      onProgress?.("GPU unavailable — falling back to CPU...");
-      this.landmarker = await HandLandmarker.createFromOptions(fileset, {
-        baseOptions: { modelAssetPath, delegate: "CPU" },
-        ...options,
-      });
-      console.info("[OmniPoint] HandLandmarker initialized (CPU delegate)", options);
-    }
+    onProgress?.("Loading vision runtime...");
+    this.landmarker = await GestureEngine.prewarm(floors);
     onProgress?.("Sensor ready.");
   }
 
