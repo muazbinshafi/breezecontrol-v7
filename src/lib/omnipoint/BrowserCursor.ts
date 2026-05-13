@@ -1089,8 +1089,7 @@ export class BrowserCursor {
       if (svg) svg.style.opacity = "0";
       return;
     }
-    svg.style.left = `${cursorX}px`;
-    svg.style.top = `${cursorY}px`;
+    svg.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
 
     const refDx = lm[5].x - lm[0].x;
     const refDy = lm[5].y - lm[0].y;
