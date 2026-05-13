@@ -31,6 +31,23 @@ export const Route = createFileRoute("/demo")({
       { rel: "preconnect", href: "https://storage.googleapis.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://cdn.jsdelivr.net" },
       { rel: "dns-prefetch", href: "https://storage.googleapis.com" },
+      // Preload the heaviest assets (vision WASM + hand landmark model) so
+      // the browser starts the downloads at HTML parse time, in parallel with
+      // React hydration and the camera permission prompt.
+      {
+        rel: "preload",
+        as: "fetch",
+        href: "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+        crossOrigin: "anonymous",
+        fetchpriority: "high",
+      },
+      {
+        rel: "preload",
+        as: "fetch",
+        href: "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm/vision_wasm_internal.wasm",
+        crossOrigin: "anonymous",
+        fetchpriority: "high",
+      },
     ],
   }),
 });

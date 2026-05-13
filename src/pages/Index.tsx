@@ -8,6 +8,23 @@ import {
 import { ThemeSettings, ThemeToggleQuick } from "@/components/ThemeSettings";
 import { GestureSettingsPanel } from "@/components/omnipoint/GestureSettingsPanel";
 
+// Warm the heavy MediaPipe assets into the HTTP cache as soon as the user
+// signals intent to visit /demo (hover/focus/touch on the CTA). The model
+// (~7.5MB) and WASM then stream in parallel with the route transition,
+// shaving most of the visible "Loading vision runtime..." wait.
+const DEMO_ASSETS = [
+  "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+  "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm/vision_wasm_internal.wasm",
+];
+let demoAssetsWarmed = false;
+function warmDemoAssets() {
+  if (demoAssetsWarmed || typeof window === "undefined") return;
+  demoAssetsWarmed = true;
+  for (const href of DEMO_ASSETS) {
+    fetch(href, { mode: "cors", credentials: "omit", cache: "force-cache" }).catch(() => {});
+  }
+}
+
 const Index = () => {
   useEffect(() => {
     document.title = "BreezeControl — Touchless Gesture Control for Web, Desktop & Mobile";
@@ -123,7 +140,13 @@ function Hero() {
               phone. Soft on the eyes, sharp on the cursor.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up delay-300">
-              <Link to="/demo" className="btn-primary btn-bloom h-12 px-6 text-sm anim-glow-pulse">
+              <Link
+                to="/demo"
+                className="btn-primary btn-bloom h-12 px-6 text-sm anim-glow-pulse"
+                onMouseEnter={warmDemoAssets}
+                onFocus={warmDemoAssets}
+                onTouchStart={warmDemoAssets}
+              >
                 <Play className="w-4 h-4 fill-current" />
                 Try it live
                 <ArrowRight className="w-4 h-4" />
