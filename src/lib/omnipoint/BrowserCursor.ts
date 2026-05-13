@@ -1089,8 +1089,7 @@ export class BrowserCursor {
       if (svg) svg.style.opacity = "0";
       return;
     }
-    svg.style.left = `${cursorX}px`;
-    svg.style.top = `${cursorY}px`;
+    svg.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
 
     const refDx = lm[5].x - lm[0].x;
     const refDy = lm[5].y - lm[0].y;
@@ -1203,14 +1202,12 @@ export class BrowserCursor {
       return;
     }
     const { x, y } = this.resolveScreenXY(snap.cursorX, snap.cursorY);
-    this.ring.style.left = `${x}px`;
-    this.ring.style.top = `${y}px`;
-    this.dot.style.left = `${x}px`;
-    this.dot.style.top = `${y}px`;
-    this.label.style.left = `${x}px`;
-    this.label.style.top = `${y}px`;
-    this.hand.style.left = `${x}px`;
-    this.hand.style.top = `${y}px`;
+    // Position via GPU-composited transform instead of left/top to avoid
+    // per-frame layout reflow — keeps cursor motion smooth at 60+ fps.
+    const tf = `translate3d(${x}px, ${y}px, 0)`;
+    this.dot.style.transform = tf;
+    this.label.style.transform = tf;
+    this.hand.style.transform = tf;
     this.updateHandSkeleton(snap);
 
     const g = snap.gesture;
@@ -1628,10 +1625,9 @@ export class BrowserCursor {
     }
 
     const { x, y } = this.resolveScreenXY(secondary.cursorX, secondary.cursorY);
-    ring.style.left = `${x}px`;
-    ring.style.top = `${y}px`;
-    labelEl.style.left = `${x}px`;
-    labelEl.style.top = `${y}px`;
+    const tf2 = `translate3d(${x}px, ${y}px, 0)`;
+    ring.style.transform = tf2;
+    labelEl.style.transform = tf2;
 
     // Render the live skeleton for the secondary hand at its index-tip.
     this.updateSecondaryHandSkeleton(secondary, x, y);
