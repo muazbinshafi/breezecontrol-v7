@@ -1626,10 +1626,9 @@ export class BrowserCursor {
     }
 
     const { x, y } = this.resolveScreenXY(secondary.cursorX, secondary.cursorY);
-    ring.style.left = `${x}px`;
-    ring.style.top = `${y}px`;
-    labelEl.style.left = `${x}px`;
-    labelEl.style.top = `${y}px`;
+    const tf2 = `translate3d(${x}px, ${y}px, 0)`;
+    ring.style.transform = tf2;
+    labelEl.style.transform = tf2;
 
     // Render the live skeleton for the secondary hand at its index-tip.
     this.updateSecondaryHandSkeleton(secondary, x, y);
