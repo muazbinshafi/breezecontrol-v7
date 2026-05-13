@@ -23,6 +23,14 @@ export const Route = createFileRoute("/demo")({
       { name: "twitter:title", content: "Live demo — BreezeControl" },
       { name: "twitter:description", content: "Try gesture control live in your browser." },
     ],
-    links: [{ rel: "canonical", href: `${SITE}/demo` }],
+    links: [
+      { rel: "canonical", href: `${SITE}/demo` },
+      // Open TCP/TLS to MediaPipe CDNs early so the ~10MB model + WASM start
+      // streaming the moment the route mounts, not after JS evaluates.
+      { rel: "preconnect", href: "https://cdn.jsdelivr.net", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://storage.googleapis.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://cdn.jsdelivr.net" },
+      { rel: "dns-prefetch", href: "https://storage.googleapis.com" },
+    ],
   }),
 });
